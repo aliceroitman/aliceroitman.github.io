@@ -1,131 +1,110 @@
-# Open Source Portfolio Template
+# portfolio-template
 
-A clean, minimal, easy and ready-to-go portfolio template built with pure HTML, CSS, JavaScript, and GSAP animations. Designed to be easily customizable and deployment-ready.
+A small collection of free, open-source portfolio templates for developers. Fork one, fill in your info, and ship it. No frameworks, no build steps, no subscriptions.
 
-## Live Preview
+by [kay](https://kayspace.vercel.app) — contributions are welcome.
 
-[View Live Demo](https://opensource-portfolio-template.vercel.app)
+---
 
-## Features
+## templates
 
-- **Pure HTML/CSS/JS** - No frameworks, just vanilla web technologies
-- **GSAP Animations** - Smooth, performant animations
-- **CSS Variables** - Easy color and design customization
-- **Responsive Design** - Works perfectly on all devices
-- **Fast Loading** - Optimized for performance
-- **Clean Typography** - Monospace fonts for a developer aesthetic
-- **Text-Based Design** - No images required, fully text-based
-- **Easy Customization** - Simple placeholder system
+| # | name | style | status |
+|---|------|-------|--------|
+| 01 | [Template 1](templates/template1.html) | dark, monospace-first, minimal | live |
+| 02 | [Template 2](templates/template2.html) | light, warm paper tones, serif headings | wip |
+| 03 | [Template 3](templates/template3.html) | light, bold | archived |
 
-## Quick Start
+---
 
-1. **Clone or Download**
-   ```bash
-   git clone https://github.com/kayspace/portfolio-template.git
-   cd portfolio-template
-   ```
+## structure
 
-2. **Open in Browser**
-   - Open `index.html` in your browser
-   - Or use a local server (recommended)
-
-3. **Customize Your Content**
-   - Edit `index.html` to replace placeholder text
-   - Modify colors in `styles.css` (CSS variables section)
-   - Adjust animations in `script.js` if needed
-
-## Customization Guide
-
-### Replacing Placeholder Content
-
-1. **Personal Information**
-   - Replace `[Your Name]` with your actual name
-   - Update `[Your Title/Role]` with your professional title
-   - Change `[Your Description]` to your personal description
-
-2. **Sections to Customize**
-   - **Home**: Update tagline and description
-   - **Work**: Replace with your actual projects
-   - **Skills**: Add your real skills and technologies
-   - **About**: Write your genuine story
-   - **Contact**: Add your real contact information
-
-### Color Customization
-
-All colors are defined as CSS variables in `styles.css`:
-
-```css
-:root {
-  --background: hsl(0, 0%, 100%);
-  --secondary: hsl(0, 0%, 96%);
-  --border: hsl(0, 0%, 80%);
-  --text-primary: hsl(0, 0%, 10%);
-  --text-secondary: hsl(0, 0%, 20%);
-  /* ... more variables */
-}
+```
+portfolio-template/
+├── index.html           ← homepage 
+├── templates/           ← templates folder
+│   ├── template1.html   
+│   └── template2.html   
+│   └── template3.html  
+├── LICENSE
+├── CONTRIBUTING.md
+└── README.md
 ```
 
-### Typography
+---
 
-The template uses monospace fonts. To change:
+## getting started
 
-  - Go to google fonts, get ur desired fonts, and add thier respective tags in the `index.html` and change the font through css
+**1. fork or clone**
 
-```css
-:root {
-  --font-mono: 'Your Preferred Font', monospace;
-}
+```bash
+git clone git@github.com:kayspace/portfolio-template.git
+cd portfolio-template
 ```
 
-### Layout Modifications
+**2. pick a template**
 
-- Section spacing: Adjust `--section-padding` variable
-- Container width: Modify `--container-max-width`
-- Animation timing: Edit GSAP timeline values in `script.js`
+Open `templates/template1.html` or `templates/template2.html` in your editor. Every placeholder is clearly marked in brackets — for example:
 
-## Deployment
+```
+[Your Name]
+[your.email@domain.com]
+[Your Description]
+```
 
-### Vercel (Recommended)
+Replace them with your own content. That is all there is to it.
 
-1. Push your code to GitHub
-2. Connect your repository to [Vercel](https://vercel.com)
-3. Deploy with default settings
+**3. deploy**
 
-### Netlify
+Each template is a single self-contained `.html` file. You can deploy it anywhere that serves static files:
 
-1. Drag and drop the folder to [Netlify](https://netlify.com)
-2. Or connect your GitHub repository
+- **Vercel** — drag and drop the folder or connect your forked repo
+- **Netlify** — same as above
+- **GitHub Pages** — push to a repo and enable Pages in settings
 
-### GitHub Pages
+No build process, no `npm install`, no config files.
 
-1. Push to GitHub
-2. Go to repository Settings > Pages
-3. Set source to your main branch folder
+---
 
-## Tech Stack
+## customising
 
-- **HTML5** - Semantic markup
-- **CSS3** - Modern styling with custom properties
-- **JavaScript** - Vanilla JS for interactions
-- **GSAP** - Animation library
-- **CSS Variables** - For easy theming
+Both templates use CSS custom properties (variables) at the top of the `<style>` block. Changing colors, fonts, or spacing is straightforward — look for the `:root { }` block and edit from there.
 
-## Contributing
+Each template also includes comments explaining what each section does.
+
+---
+
+## contributing
 
 We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
-## License
+Want to add a template or improve an existing one? Contributions are welcome.
 
-This project is open source and available under the [MIT License](LICENSE).
+1. Fork the repo
+2. Create a new branch — `git checkout -b add/template3`
+3. Add your template to `templates/template3.html`
+4. Update the template list in `index.html` and this README
+5. Open a pull request
+
+A few things that make a good template contribution:
+
+- Self-contained single `.html` file — styles and scripts inline
+- No external dependencies other than Google Fonts and optionally GSAP (both CDN)
+- All placeholder text in `[brackets]` so users know exactly what to replace
+- Works on mobile without extra effort
+
+---
 
 ## Support
 
 - Open an [issue](https://github.com/kayspace/portfolio-template/issues) for bugs
 - Start a [discussion](https://github.com/kayspace/portfolio-template/discussions) for questions
 
-## Author
+## licence
 
-**kayspace** - [GitHub Profile](https://github.com/kayspace)  | [Contact](kayzspace@outlook.com)
+MIT — free to use, modify, and distribute for personal and commercial projects. You do not need to credit me, but a note in your footer or a star on this repo is genuinely appreciated.
 
->*You’re free to fork, tweak, or use it as your base.
-If you really like the theme and if it was really useful to you, you can [spare me a star ✪](https://github.com/kayspace/portfolio-template) hehe!*
+See [LICENSE](LICENSE) for the full text.
+
+---
+
+*if u like it, [star the repo](https://github.com/kayspace/portfolio-template) :)*
