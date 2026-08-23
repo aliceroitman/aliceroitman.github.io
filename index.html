@@ -1,605 +1,1123 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>portfolio-template — open source portfolio templates</title>
-<meta name="description" content="A small collection of free, open-source portfolio templates for developers. Fork, customise, ship." />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>[Your Name] — Developer</title>
+    <meta
+      name="description"
+      content="[Your Name] — Full Stack Developer Portfolio"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+      /* ── RESET ───────────────────────────────────────────── */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
 
-<style>
-/* ── reset ─────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+      /* ── TOKENS ──────────────────────────────────────────── */
+      :root {
+        --paper: #f5f0e8;
+        --paper2: #ede8df;
+        --ink: #1a1714;
+        --ink2: #3d3830;
+        --ink3: #7a7469;
+        --ink4: #b8b0a4;
+        --rule: rgba(26, 23, 20, 0.1);
+        --rule-h: rgba(26, 23, 20, 0.22);
+        --red: #c0392b;
+        --red-dim: rgba(192, 57, 43, 0.08);
+        --serif: "Fraunces", serif;
+        --mono: "DM Mono", monospace;
+        --ease: cubic-bezier(0.16, 1, 0.3, 1);
+      }
 
-/* ── tokens ────────────────────────────────────────────── */
-:root {
-  --paper:   #f4efe6;
-  --paper2:  #ece6db;
-  --paper3:  #e2dbd0;
-  --ink:     #1c1915;
-  --ink2:    #3b3730;
-  --ink3:    #7a7269;
-  --ink4:    #b3ab9f;
-  --rule:    rgba(28,25,21,.09);
-  --rule2:   rgba(28,25,21,.16);
-  --red:     #b83232;
-  --red2:    rgba(184,50,50,.07);
-  --green:   #2d6a4f;
-  --serif:   'Fraunces', serif;
-  --mono:    'DM Mono', monospace;
-  --ease:    cubic-bezier(.16,1,.3,1);
-  --ease2:   cubic-bezier(.4,0,.2,1);
-}
+      /* ── BASE ────────────────────────────────────────────── */
+      body {
+        font-family: var(--mono);
+        background: var(--paper);
+        color: var(--ink);
+        font-size: 13px;
+        line-height: 1.7;
+        overflow-x: hidden;
+      }
 
-/* ── base ──────────────────────────────────────────────── */
-body {
-  font-family: var(--mono);
-  background: var(--paper);
-  color: var(--ink);
-  font-size: 13px;
-  line-height: 1.7;
-  overflow-x: hidden;
-  min-height: 100vh;
-}
+      /* subtle paper texture */
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 27px,
+          rgba(26, 23, 20, 0.025) 27px,
+          rgba(26, 23, 20, 0.025) 28px
+        );
+        pointer-events: none;
+        z-index: 0;
+      }
 
+      /* ── NAV ─────────────────────────────────────────────── */
+      .nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        height: 56px;
+        border-bottom: 1px solid var(--rule);
+        background: rgba(245, 240, 232, 0.92);
+        backdrop-filter: blur(10px);
+        display: flex;
+        align-items: center;
+        padding: 0 3rem;
+      }
+      .nav-inner {
+        max-width: 1080px;
+        margin: 0 auto;
+        width: 100%;
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+      }
+      .nav-logo {
+        font-family: var(--serif);
+        font-size: 17px;
+        font-weight: 300;
+        font-style: italic;
+        color: var(--ink);
+        text-decoration: none;
+        letter-spacing: -0.01em;
+      }
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+      }
+      .nav-links a {
+        font-size: 11px;
+        color: var(--ink3);
+        text-decoration: none;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        transition: color 0.2s;
+        position: relative;
+      }
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: var(--red);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.25s var(--ease);
+      }
+      .nav-links a:hover {
+        color: var(--ink);
+      }
+      .nav-links a:hover::after {
+        transform: scaleX(1);
+      }
 
-/* ── layout ────────────────────────────────────────────── */
-.wrap {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 0 2.5rem;
-  position: relative; z-index: 1;
-}
+      /* ── LAYOUT ──────────────────────────────────────────── */
+      .container {
+        max-width: 1080px;
+        margin: 0 auto;
+      }
+      section {
+        padding: 6rem 3rem;
+        position: relative;
+        z-index: 2;
+      }
 
-/* ── nav ───────────────────────────────────────────────── */
-.nav {
-  position: sticky; top: 0; z-index: 100;
-  border-bottom: 1px solid var(--rule);
-  background: rgba(244,239,230,.93);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
-.nav-wrap {
-  max-width: 860px; margin: 0 auto; padding: 0 2.5rem;
-  height: 52px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.nav-brand {
-  font-family: var(--serif);
-  font-size: 15px; font-weight: 300; font-style: italic;
-  color: var(--ink); text-decoration: none;
-  letter-spacing: -0.01em;
-}
-.nav-right { display: flex; align-items: center; gap: 1.5rem; }
-.nav-link {
-  font-size: 11px; color: var(--ink3); text-decoration: none;
-  letter-spacing: .09em; text-transform: uppercase;
-  transition: color .18s;
-}
-.nav-link:hover { color: var(--ink); }
-.star-btn {
-  display: flex; align-items: center; gap: 6px;
-  background: var(--ink); color: var(--paper);
-  border: none; border-radius: 3px;
-  font-family: var(--mono); font-size: 11px;
-  letter-spacing: .07em; text-transform: uppercase;
-  padding: 6px 14px; cursor: pointer;
-  text-decoration: none;
-  transition: background .18s, transform .1s;
-}
-.star-btn:hover { background: var(--ink2); }
-.star-btn:active { transform: scale(.97); }
-.star-icon { font-size: 12px; line-height: 1; }
+      /* ── HOME ────────────────────────────────────────────── */
+      #home {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        padding-top: 56px;
+        gap: 4rem;
+        max-width: 1080px;
+        margin: 0 auto;
+        padding-left: 3rem;
+        padding-right: 3rem;
+      }
 
-/* ── hero ──────────────────────────────────────────────── */
-.hero {
-  padding: 6rem 0 4.5rem;
-  border-bottom: 1px solid var(--rule);
-}
-.hero-eyebrow {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-size: 11px; color: var(--ink3); letter-spacing: .1em;
-  text-transform: uppercase; margin-bottom: 1.75rem;
-  opacity: 0; animation: up .6s var(--ease) .1s forwards;
-}
-.hero-eyebrow-dot {
-  width: 5px; height: 5px; border-radius: 50%;
-  background: var(--green); flex-shrink: 0;
-}
-.hero-title {
-  font-family: var(--serif);
-  font-size: clamp(2.6rem, 6vw, 4.4rem);
-  font-weight: 300; line-height: 1.08;
-  letter-spacing: -.025em; color: var(--ink);
-  max-width: 640px; margin-bottom: 1.75rem;
-  opacity: 0; animation: up .75s var(--ease) .2s forwards;
-}
-.hero-title em {
-  font-style: italic; color: var(--ink3);
-}
-.hero-body {
-  font-size: 13px; color: var(--ink3); line-height: 1.9;
-  max-width: 480px; margin-bottom: 2.25rem;
-  opacity: 0; animation: up .65s var(--ease) .35s forwards;
-}
-.hero-body a {
-  color: var(--ink2); text-underline-offset: 3px;
-  transition: color .15s;
-}
-.hero-body a:hover { color: var(--ink); }
-.hero-actions {
-  display: flex; gap: 10px; flex-wrap: wrap;
-  opacity: 0; animation: up .6s var(--ease) .48s forwards;
-}
-.btn-ink {
-  background: var(--ink); color: var(--paper);
-  border: none; border-radius: 3px;
-  font-family: var(--mono); font-size: 11px;
-  letter-spacing: .08em; text-transform: uppercase;
-  padding: 9px 20px; cursor: pointer; text-decoration: none;
-  display: inline-flex; align-items: center; gap: 7px;
-  transition: background .18s, transform .1s;
-}
-.btn-ink:hover { background: var(--ink2); }
-.btn-ink:active { transform: scale(.97); }
-.btn-ghost {
-  background: transparent; color: var(--ink2);
-  border: 1px solid var(--rule2); border-radius: 3px;
-  font-family: var(--mono); font-size: 11px;
-  letter-spacing: .08em; text-transform: uppercase;
-  padding: 8px 18px; cursor: pointer; text-decoration: none;
-  display: inline-flex; align-items: center; gap: 7px;
-  transition: border-color .18s, color .18s;
-}
-.btn-ghost:hover { border-color: var(--ink3); color: var(--ink); }
+      .home-left {
+        padding: 3rem 0;
+      }
+      .home-eyebrow {
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--ink3);
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        opacity: 0;
+      }
+      .home-eyebrow-line {
+        width: 32px;
+        height: 1px;
+        background: var(--ink4);
+      }
+      .hero-title {
+        font-family: var(--serif);
+        font-size: clamp(3.2rem, 5.5vw, 5rem);
+        font-weight: 300;
+        line-height: 1.05;
+        color: var(--ink);
+        margin-bottom: 2rem;
+        letter-spacing: -0.02em;
+        opacity: 0;
+      }
+      .hero-title strong {
+        font-weight: 300;
+        font-style: italic;
+        color: var(--red);
+      }
+      .hero-desc {
+        font-size: 13px;
+        color: var(--ink3);
+        max-width: 380px;
+        line-height: 1.9;
+        margin-bottom: 2.5rem;
+        opacity: 0;
+      }
+      .hero-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        opacity: 0;
+      }
 
-/* stats row */
-.hero-stats {
-  display: flex; align-items: center; gap: 2rem;
-  margin-top: 2.75rem; padding-top: 2.25rem;
-  border-top: 1px solid var(--rule);
-  opacity: 0; animation: up .55s var(--ease) .6s forwards;
-}
-.stat { display: flex; flex-direction: column; gap: 1px; }
-.stat-num {
-  font-family: var(--serif);
-  font-size: 1.6rem; font-weight: 300;
-  color: var(--ink); line-height: 1;
-}
-.stat-label { font-size: 10px; color: var(--ink4); letter-spacing: .09em; text-transform: uppercase; }
-.stat-divider { width: 1px; height: 32px; background: var(--rule2); flex-shrink: 0; }
+      .btn-primary {
+        background: var(--ink);
+        color: var(--paper);
+        border: none;
+        border-radius: 2px;
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 10px 22px;
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          transform 0.1s;
+      }
+      .btn-primary:hover {
+        background: var(--ink2);
+      }
+      .btn-primary:active {
+        transform: scale(0.97);
+      }
+      .btn-outline {
+        background: transparent;
+        color: var(--ink2);
+        border: 1px solid var(--rule-h);
+        border-radius: 2px;
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 10px 22px;
+        cursor: pointer;
+        transition:
+          border-color 0.2s,
+          color 0.2s;
+      }
+      .btn-outline:hover {
+        border-color: var(--ink3);
+        color: var(--ink);
+      }
 
-/* ── templates section ─────────────────────────────────── */
-.templates-section {
-  padding: 4rem 0 2rem;
-}
-.section-row {
-  display: flex; align-items: baseline;
-  justify-content: space-between;
-  margin-bottom: 2rem;
-  border-bottom: 1px solid var(--rule);
-  padding-bottom: .85rem;
-}
-.section-heading {
-  font-size: 11px; letter-spacing: .12em;
-  text-transform: uppercase; color: var(--ink3);
-}
-.section-tally {
-  font-size: 11px; color: var(--ink4); letter-spacing: .05em;
-  font-style: italic; font-family: var(--serif);
-}
+      /* right side — status card */
+      .home-right {
+        opacity: 0;
+      }
+      .status-card {
+        border: 1px solid var(--rule);
+        border-radius: 4px;
+        background: var(--paper2);
+        overflow: hidden;
+      }
+      .status-card-header {
+        padding: 0.75rem 1.25rem;
+        border-bottom: 1px solid var(--rule);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .status-card-title {
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink3);
+      }
+      .status-avail {
+        font-size: 10px;
+        color: var(--red);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .avail-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--red);
+        animation: pulse-red 2s ease-in-out infinite;
+      }
+      @keyframes pulse-red {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+      }
+      .status-card-body {
+        padding: 1.5rem 1.25rem;
+      }
+      .status-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding: 7px 0;
+        border-bottom: 1px solid var(--rule);
+        font-size: 12px;
+      }
+      .status-row:last-child {
+        border-bottom: none;
+      }
+      .status-key {
+        color: var(--ink3);
+        font-style: italic;
+      }
+      .status-val {
+        color: var(--ink);
+      }
 
-/* template list — each row is a template */
-.template-list { display: flex; flex-direction: column; }
+      /* ── WORK ────────────────────────────────────────────── */
+      #work {
+        border-top: 1px solid var(--rule);
+        padding: 6rem 3rem;
+      }
+      #work .container {
+      }
 
-.tpl-row {
-  display: grid;
-  grid-template-columns: 28px 1fr auto;
-  align-items: center;
-  gap: 1.25rem;
-  padding: 1.25rem 0;
-  border-bottom: 1px solid var(--rule);
-  text-decoration: none; color: var(--ink);
-  transition: padding-left .22s var(--ease);
-  opacity: 0;
-  transform: translateY(10px);
-  animation: up .5s var(--ease) calc(var(--i) * .07s + .2s) forwards;
-}
-.tpl-row:hover { padding-left: 6px; }
-.tpl-row:hover .tpl-arrow { opacity: 1; transform: translateX(0); }
-.tpl-row:hover .tpl-name { color: var(--ink); }
-.tpl-row:first-child { }
+      .section-header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        margin-bottom: 3rem;
+      }
+      .section-title {
+        font-family: var(--serif);
+        font-size: clamp(1.8rem, 3vw, 2.5rem);
+        font-weight: 300;
+        font-style: italic;
+        color: var(--ink);
+        letter-spacing: -0.02em;
+      }
+      .section-count {
+        font-size: 11px;
+        color: var(--ink4);
+        letter-spacing: 0.06em;
+      }
 
-.tpl-num {
-  font-size: 10px; color: var(--ink4);
-  letter-spacing: .06em; text-align: right;
-  align-self: start; padding-top: 2px;
-}
-.tpl-body {}
-.tpl-name {
-  font-family: var(--serif);
-  font-size: clamp(1.1rem, 2vw, 1.35rem);
-  font-weight: 300; line-height: 1.25;
-  color: var(--ink2); letter-spacing: -.01em;
-  margin-bottom: 5px;
-  transition: color .18s;
-}
-.tpl-name em { font-style: italic; }
-.tpl-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 9px; }
-.tpl-tag {
-  font-size: 10px; color: var(--ink3);
-  border: 1px solid var(--rule2); border-radius: 100px;
-  padding: 2px 9px; letter-spacing: .04em;
-  background: var(--paper2);
-}
-.tpl-right {
-  display: flex; flex-direction: column;
-  align-items: flex-end; gap: 8px;
-  flex-shrink: 0;
-}
-.tpl-badge {
-  font-size: 10px; letter-spacing: .06em;
-  padding: 3px 10px; border-radius: 100px;
-  border: 1px solid var(--rule2); color: var(--ink3);
-  white-space: nowrap;
-}
-.tpl-badge.live {
-  color: var(--green); border-color: rgba(45,106,79,.3);
-  background: rgba(45,106,79,.07);
-}
-.tpl-badge.archive {
-    color: #433e32; border-color: rgba(138,106,32,.25);
-    background: rgba(138,106,32,.07);
-}
-.tpl-badge.wip {
-  color: #8a6a20; border-color: rgba(138,106,32,.25);
-  background: rgba(138,106,32,.07);
-}
-.tpl-badge.soon {
-  color: #73208a; border-color: rgba(106, 32, 138, 0.25);
-  background: rgba(138,106,32,.07);
-}
-.tpl-arrow {
-  font-size: 16px; color: var(--ink3);
-  opacity: 0; transform: translateX(-5px);
-  transition: opacity .18s, transform .18s;
-}
+      /* project grid */
+      .work-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1px;
+        background: var(--rule);
+        border: 1px solid var(--rule);
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      .work-card {
+        background: var(--paper);
+        padding: 2rem;
+        text-decoration: none;
+        color: var(--ink);
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        min-height: 200px;
+        transition: background 0.2s;
+        opacity: 0;
+        transform: translateY(16px);
+        position: relative;
+        overflow: hidden;
+      }
+      .work-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--red);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.35s var(--ease);
+      }
+      .work-card:hover {
+        background: var(--paper2);
+      }
+      .work-card:hover::before {
+        transform: scaleX(1);
+      }
+      .work-card:hover .work-card-arrow {
+        opacity: 1;
+        transform: translate(0, 0);
+      }
+      .work-card-num {
+        font-size: 10px;
+        color: var(--ink4);
+        letter-spacing: 0.1em;
+        margin-bottom: 1.25rem;
+      }
+      .work-card-title {
+        font-family: var(--serif);
+        font-size: 1.45rem;
+        font-weight: 300;
+        line-height: 1.2;
+        color: var(--ink);
+        flex: 1;
+        letter-spacing: -0.01em;
+      }
+      .work-card-title em {
+        font-style: italic;
+        color: var(--ink3);
+      }
+      .work-card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 1.5rem;
+      }
+      .work-card-stack {
+        font-size: 11px;
+        color: var(--ink3);
+        font-style: italic;
+      }
+      .work-card-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .work-card-year {
+        font-size: 11px;
+        color: var(--ink4);
+      }
+      .work-card-badge {
+        font-size: 10px;
+        letter-spacing: 0.06em;
+        padding: 2px 8px;
+        border-radius: 100px;
+        border: 1px solid var(--rule-h);
+        color: var(--ink3);
+      }
+      .work-card-badge.live {
+        color: var(--red);
+        border-color: rgba(192, 57, 43, 0.3);
+        background: var(--red-dim);
+      }
+      .work-card-badge.wip {
+        color: #a07020;
+        border-color: rgba(160, 112, 32, 0.25);
+        background: rgba(160, 112, 32, 0.07);
+      }
+      .work-card-arrow {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        font-size: 18px;
+        color: var(--ink3);
+        opacity: 0;
+        transform: translate(-4px, 4px);
+        transition:
+          opacity 0.2s,
+          transform 0.2s;
+      }
 
-/* ── how to use ────────────────────────────────────────── */
-.howto {
-  padding: 3.5rem 0 2.5rem;
-  border-top: 1px solid var(--rule);
-  margin-top: 1rem;
-}
-.howto-head {
-  font-size: 11px; letter-spacing: .12em;
-  text-transform: uppercase; color: var(--ink3);
-  margin-bottom: 2rem;
-}
-.steps {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px; background: var(--rule);
-  border: 1px solid var(--rule); border-radius: 4px;
-  overflow: hidden;
-}
-.step {
-  background: var(--paper);
-  padding: 1.5rem;
-  transition: background .18s;
-}
-.step:hover { background: var(--paper2); }
-.step-n {
-  font-size: 10px; color: var(--ink4);
-  letter-spacing: .1em; margin-bottom: .75rem;
-}
-.step-title {
-  font-family: var(--serif); font-size: 1rem;
-  font-weight: 300; color: var(--ink);
-  margin-bottom: .4rem; font-style: italic;
-}
-.step-text { font-size: 11px; color: var(--ink3); line-height: 1.65; }
-.step-code {
-  display: inline-block;
-  background: var(--paper3); border-radius: 3px;
-  padding: 1px 6px; font-family: var(--mono);
-  font-size: 11px; color: var(--ink2); margin-top: 6px;
-  border: 1px solid var(--rule2);
-  word-break: break-all;
-}
+      /* ── SKILLS ──────────────────────────────────────────── */
+      #skills {
+        border-top: 1px solid var(--rule);
+        padding: 6rem 3rem;
+      }
 
-/* ── licence block ─────────────────────────────────────── */
-.licence-block {
-  margin: 2rem 0;
-  border: 1px solid var(--rule);
-  border-radius: 4px;
-  background: var(--paper2);
-  padding: 1.5rem;
-  display: flex; align-items: flex-start; gap: 1.25rem;
-}
-.licence-icon {
-  font-size: 22px; flex-shrink: 0;
-  color: var(--ink3); line-height: 1; margin-top: 1px;
-}
-.licence-body {}
-.licence-title {
-  font-family: var(--serif); font-size: 1rem;
-  font-weight: 300; font-style: italic;
-  color: var(--ink); margin-bottom: .35rem;
-}
-.licence-text { font-size: 12px; color: var(--ink3); line-height: 1.7; }
-.licence-text a { color: var(--ink2); text-underline-offset: 3px; }
-.licence-text a:hover { color: var(--ink); }
+      .skills-two-col {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 4rem;
+        margin-top: 1rem;
+        align-items: start;
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      .skills-intro {
+        font-family: var(--serif);
+        font-size: clamp(1.1rem, 2vw, 1.4rem);
+        font-weight: 300;
+        font-style: italic;
+        color: var(--ink3);
+        line-height: 1.5;
+      }
+      .skills-right {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+      }
+      .skill-group-title {
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--red);
+        margin-bottom: 1rem;
+        font-weight: 500;
+      }
+      .skill-list {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .skill-item {
+        font-size: 12px;
+        color: var(--ink2);
+        padding: 4px 0;
+        border-bottom: 1px solid var(--rule);
+        transition:
+          color 0.15s,
+          border-color 0.15s;
+      }
+      .skill-item:hover {
+        color: var(--ink);
+        border-color: var(--ink4);
+      }
 
-/* ── footer ────────────────────────────────────────────── */
-.footer {
-  border-top: 1px solid var(--rule);
-  background: var(--paper2);
-  position: relative; z-index: 1;
-}
-.footer-wrap {
-  max-width: 860px; margin: 0 auto; padding: 0 2.5rem;
-  min-height: 52px;
-  display: flex; align-items: center;
-  justify-content: space-between; gap: 1rem;
-  flex-wrap: wrap;
-  padding-top: 14px; padding-bottom: 14px;
-}
-.footer-left {
-  display: flex; flex-direction: column; gap: 3px;
-}
-.footer-made { font-size: 11px; color: var(--ink3); }
-.footer-made a { color: var(--ink2); text-decoration: none; text-underline-offset: 3px; }
-.footer-made a:hover { color: var(--ink); text-decoration: underline; }
-.footer-oss {
-  font-size: 10px; color: var(--ink4);
-  letter-spacing: .06em;
-}
-.footer-right { display: flex; align-items: center; gap: 1.25rem; }
-.footer-link {
-  font-size: 11px; color: var(--ink3); text-decoration: none;
-  letter-spacing: .07em; text-transform: uppercase;
-  transition: color .15s;
-}
-.footer-link:hover { color: var(--ink); }
+      /* ── ABOUT ───────────────────────────────────────────── */
+      #about {
+        border-top: 1px solid var(--rule);
+        padding: 6rem 3rem;
+      }
 
-/* ── keyframes ─────────────────────────────────────────── */
-@keyframes up {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: translateY(0);    }
-}
+      .about-body {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 5rem;
+        margin-top: 1rem;
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      .about-text {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+      }
+      .about-p {
+        font-size: 14px;
+        color: var(--ink2);
+        line-height: 1.9;
+        font-family: var(--serif);
+        font-weight: 300;
+      }
+      .about-p em {
+        font-style: italic;
+        color: var(--red);
+      }
+      .about-aside {
+      }
+      .aside-block {
+        border-left: 2px solid var(--rule-h);
+        padding-left: 1.25rem;
+        margin-bottom: 2rem;
+      }
+      .aside-block:last-child {
+        margin-bottom: 0;
+      }
+      .aside-title {
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink4);
+        margin-bottom: 0.75rem;
+      }
+      .aside-items {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+      .aside-item {
+        font-size: 12px;
+        color: var(--ink2);
+        font-style: italic;
+      }
 
-/* ── responsive ────────────────────────────────────────── */
-@media (max-width: 640px) {
-  .wrap, .nav-wrap, .footer-wrap { padding-left: 1.25rem; padding-right: 1.25rem; }
-  .hero { padding: 4rem 0 3rem; }
-  .hero-stats { flex-wrap: wrap; gap: 1.5rem; }
-  .stat-divider { display: none; }
-  .steps { grid-template-columns: 1fr; }
-  .tpl-right { display: none; }
-  .nav-right .nav-link { display: none; }
-  .footer-wrap { flex-direction: column; align-items: flex-start; gap: .75rem; }
-}
-</style>
-</head>
-<body>
+      /* ── CONTACT ─────────────────────────────────────────── */
+      #contact {
+        border-top: 1px solid var(--rule);
+        padding: 7rem 3rem;
+      }
 
-<!-- nav -->
-<header class="nav">
-  <div class="nav-wrap">
-    <a href="/" class="nav-brand">portfolio-template</a>
-    <div class="nav-right">
-      <a href="#templates" class="nav-link">templates</a>
-      <a href="#how-to-use" class="nav-link">usage</a>
-      <a href="https://github.com/kayspace/portfolio-template" target="_blank" class="star-btn">
-        <span class="star-icon">☆</span> star on github
-      </a>
-    </div>
-  </div>
-</header>
+      .contact-body {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      .contact-big {
+        font-family: var(--serif);
+        font-size: clamp(2.5rem, 6vw, 5.5rem);
+        font-weight: 300;
+        line-height: 1.05;
+        color: var(--ink);
+        letter-spacing: -0.03em;
+        margin-bottom: 2.5rem;
+        max-width: 700px;
+      }
+      .contact-big em {
+        font-style: italic;
+        color: var(--red);
+      }
+      .contact-row {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 2rem;
+      }
+      .contact-email-wrap {
+      }
+      .contact-label {
+        font-size: 10px;
+        color: var(--ink4);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+      }
+      .contact-email {
+        font-family: var(--serif);
+        font-size: clamp(1rem, 2vw, 1.5rem);
+        font-weight: 300;
+        font-style: italic;
+        color: var(--ink);
+        text-decoration: none;
+        border-bottom: 1px solid var(--rule-h);
+        padding-bottom: 2px;
+        transition:
+          color 0.2s,
+          border-color 0.2s;
+      }
+      .contact-email:hover {
+        color: var(--red);
+        border-color: rgba(192, 57, 43, 0.4);
+      }
+      .social-stack {
+        display: flex;
+        gap: 1.5rem;
+      }
+      .social-link {
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink3);
+        text-decoration: none;
+        transition: color 0.15s;
+        position: relative;
+      }
+      .social-link::after {
+        content: "↗";
+        font-size: 9px;
+        margin-left: 3px;
+        opacity: 0;
+        transition: opacity 0.15s;
+      }
+      .social-link:hover {
+        color: var(--ink);
+      }
+      .social-link:hover::after {
+        opacity: 1;
+      }
 
-<!-- hero -->
-<main>
-<section class="hero">
-  <div class="wrap">
-    <div class="hero-eyebrow">
-      open source — free forever
-    </div>
+      /* ── FOOTER ──────────────────────────────────────────── */
+      footer {
+        border-top: 1px solid var(--rule);
+        padding: 1.25rem 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+        z-index: 2;
+        background: var(--paper2);
+      }
+      .footer-inner {
+        max-width: 1080px;
+        margin: 0 auto;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .footer-l {
+        font-size: 11px;
+        color: var(--ink4);
+      }
+      .footer-l a {
+        color: var(--ink3);
+      }
+      .footer-l a:hover {
+        color: var(--ink);
+      }
+      .footer-r {
+        font-size: 11px;
+        color: var(--ink3);
+      }
+      .footer-r a:hover {
+        color: var(--ink);
+      }
 
-    <h1 class="hero-title">
-      portfolio templates<br>
-      <em>for all kinds.</em>
-    </h1>
-
-    <p class="hero-body">
-      A small collection of thoughtfully made portfolio templates you can fork, customise, and ship. No frameworks, no build steps, no nonsense.
-      by <a href="https://kayspace.vercel.app" target="_blank">kayspace</a> and open to contributions.
-    </p>
-
-    <div class="hero-actions">
-      <a href="https://github.com/kayspace/portfolio-template" target="_blank" class="btn-ink">
-        <span>☆</span> star the repo
-      </a>
-      <a href="#templates" class="btn-ghost">browse templates ↓</a>
-    </div>
-
-    <div class="hero-stats">
-      <div class="stat">
-        <div class="stat-num">3</div>
-        <div class="stat-label">templates</div>
+      /* ── RESPONSIVE ──────────────────────────────────────── */
+      @media (max-width: 768px) {
+        section,
+        .nav {
+          padding-left: 1.5rem;
+          padding-right: 1.5rem;
+        }
+        #home {
+          grid-template-columns: 1fr;
+          padding-left: 1.5rem;
+          padding-right: 1.5rem;
+          min-height: auto;
+          padding-top: calc(56px + 3rem);
+          padding-bottom: 4rem;
+        }
+        .home-right {
+          display: none;
+        }
+        .work-grid {
+          grid-template-columns: 1fr;
+        }
+        .skills-two-col {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+        .skills-right {
+          grid-template-columns: 1fr 1fr;
+        }
+        .about-body {
+          grid-template-columns: 1fr;
+          gap: 2.5rem;
+        }
+        .contact-row {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .nav-links {
+          display: none;
+        }
+        footer {
+          padding: 1rem 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ── NAV ──────────────────────────────────────────────── -->
+    <nav class="nav">
+      <div class="nav-inner">
+        <a href="#home" class="nav-logo">[your name]</a>
+        <ul class="nav-links">
+          <li><a href="#home">home</a></li>
+          <li><a href="#work">work</a></li>
+          <li><a href="#skills">skills</a></li>
+          <li><a href="#about">about</a></li>
+          <li><a href="#contact">contact</a></li>
+        </ul>
       </div>
-      <div class="stat-divider"></div>
-      <div class="stat">
-        <div class="stat-num">MIT</div>
-        <div class="stat-label">licence</div>
-      </div>
-      <div class="stat-divider"></div>
-      <div class="stat">
-        <div class="stat-num">0</div>
-        <div class="stat-label">dependencies</div>
-      </div>
-      <div class="stat-divider"></div>
-      <div class="stat">
-        <div class="stat-num">free</div>
-        <div class="stat-label">always</div>
-      </div>
-    </div>
-  </div>
-</section>
+    </nav>
 
-<!-- templates -->
-<section id="templates" class="templates-section">
-  <div class="wrap">
-    <div class="section-row">
-      <div class="section-heading">templates</div>
-      <div class="section-tally">3 available, more coming</div>
-    </div>
-
-    <div class="template-list">
-
-      <!-- template 01 -->
-      <a href="/templates/template1.html" target="_blank" class="tpl-row" style="--i:1">
-        <div class="tpl-num">01</div>
-        <div class="tpl-body">
-          <div class="tpl-name">The Space <em>— minimal black</em></div>
-          <div class="tpl-tags">
-            <span class="tpl-tag">html</span>
-            <span class="tpl-tag">css</span>
-            <span class="tpl-tag">js</span>
-            <span class="tpl-tag">gsap</span>
-            <span class="tpl-tag">geist mono</span>
-            <span class="tpl-tag">dark</span>
+    <!-- ── HOME ─────────────────────────────────────────────── -->
+    <section id="home">
+      <div class="home-left">
+        <div class="home-eyebrow">
+          <div class="home-eyebrow-line"></div>
+          [your role / tite]
+        </div>
+        <h1 class="hero-title">
+          building things<br />
+          that <strong>matter.</strong>
+        </h1>
+        <p class="hero-desc">
+          [Your description. Keep it genuine, a sentence or two. What you work
+          on, what drives you, who you are beyond the code.]
+        </p>
+        <div class="hero-actions">
+          <button
+            class="btn-primary"
+            onclick="
+              document
+                .getElementById('contact')
+                .scrollIntoView({ behavior: 'smooth' })
+            "
+          >
+            get in touch
+          </button>
+          <button
+            class="btn-outline"
+            onclick="
+              document
+                .getElementById('work')
+                .scrollIntoView({ behavior: 'smooth' })
+            "
+          >
+            see my work
+          </button>
+        </div>
+      </div>
+      <div class="home-right">
+        <div class="status-card">
+          <div class="status-card-header">
+            <span class="status-card-title">current status</span>
+            <span class="status-avail"
+              ><div class="avail-dot"></div>
+              available</span
+            >
+          </div>
+          <div class="status-card-body">
+            <div class="status-row">
+              <span class="status-key">based in</span>
+              <span class="status-val">[your city]</span>
+            </div>
+            <div class="status-row">
+              <span class="status-key">role</span>
+              <span class="status-val">[your role]</span>
+            </div>
+            <div class="status-row">
+              <span class="status-key">focus</span>
+              <span class="status-val">[your focus area]</span>
+            </div>
+            <div class="status-row">
+              <span class="status-key">open to</span>
+              <span class="status-val">freelance / fulltime</span>
+            </div>
+            <div class="status-row">
+              <span class="status-key">since</span>
+              <span class="status-val">[year you started]</span>
+            </div>
           </div>
         </div>
-        <div class="tpl-right">
-          <span class="tpl-badge live">live</span>
-          <span class="tpl-arrow">↗</span>
-        </div>
-      </a>
+      </div>
+    </section>
 
-      <!-- template 02 -->
-      <a href="/templates/template2.html" target="_blank" class="tpl-row" style="--i:2">
-        <div class="tpl-num">02</div>
-        <div class="tpl-body">
-          <div class="tpl-name">Editorial <em>— warm paper, serif</em></div>
-          <div class="tpl-tags">
-            <span class="tpl-tag">html</span>
-            <span class="tpl-tag">css</span>
-            <span class="tpl-tag">js</span>
-            <span class="tpl-tag">gsap</span>
-            <span class="tpl-tag">fraunces</span>
-            <span class="tpl-tag">dm mono</span>
-            <span class="tpl-tag">light</span>
+    <!-- ── WORK ──────────────────────────────────────────────── -->
+    <section id="work">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">selected work</h2>
+          <span class="section-count">04 projects</span>
+        </div>
+        <div class="work-grid">
+          <a href="#" class="work-card">
+            <div class="work-card-num">01 / 04</div>
+            <div class="work-card-title">
+              [Project Name 1] <em>— short tagline</em>
+            </div>
+            <div class="work-card-footer">
+              <span class="work-card-stack">html / css / js</span>
+              <div class="work-card-meta">
+                <span class="work-card-year">2024</span>
+                <span class="work-card-badge live">live</span>
+              </div>
+            </div>
+            <div class="work-card-arrow">↗</div>
+          </a>
+
+          <a href="#" class="work-card">
+            <div class="work-card-num">02 / 04</div>
+            <div class="work-card-title">
+              [Project Name 2] <em>— short tagline</em>
+            </div>
+            <div class="work-card-footer">
+              <span class="work-card-stack">react / node.js</span>
+              <div class="work-card-meta">
+                <span class="work-card-year">2024</span>
+                <span class="work-card-badge live">live</span>
+              </div>
+            </div>
+            <div class="work-card-arrow">↗</div>
+          </a>
+
+          <a href="#" class="work-card">
+            <div class="work-card-num">03 / 04</div>
+            <div class="work-card-title">
+              [Project Name 3] <em>— short tagline</em>
+            </div>
+            <div class="work-card-footer">
+              <span class="work-card-stack">python / postgresql</span>
+              <div class="work-card-meta">
+                <span class="work-card-year">2023</span>
+                <span class="work-card-badge">archived</span>
+              </div>
+            </div>
+            <div class="work-card-arrow">↗</div>
+          </a>
+
+          <a href="#" class="work-card">
+            <div class="work-card-num">04 / 04</div>
+            <div class="work-card-title">
+              [Project Name 4] <em>— short tagline</em>
+            </div>
+            <div class="work-card-footer">
+              <span class="work-card-stack">next.js / supabase</span>
+              <div class="work-card-meta">
+                <span class="work-card-year">2024</span>
+                <span class="work-card-badge wip">wip</span>
+              </div>
+            </div>
+            <div class="work-card-arrow">↗</div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SKILLS ─────────────────────────────────────────────── -->
+    <section id="skills">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">skills & tools</h2>
+        </div>
+        <div class="skills-two-col">
+          <p class="skills-intro">
+            the things I reach for when building — and a few I'm still learning.
+          </p>
+          <div class="skills-right">
+            <div>
+              <div class="skill-group-title">frontend</div>
+              <div class="skill-list">
+                <div class="skill-item">javascript</div>
+                <div class="skill-item">typescript</div>
+                <div class="skill-item">react.js</div>
+                <div class="skill-item">next.js</div>
+                <div class="skill-item">tailwind css</div>
+              </div>
+            </div>
+            <div>
+              <div class="skill-group-title">backend</div>
+              <div class="skill-list">
+                <div class="skill-item">node.js</div>
+                <div class="skill-item">express</div>
+                <div class="skill-item">python</div>
+                <div class="skill-item">postgresql</div>
+                <div class="skill-item">supabase</div>
+              </div>
+            </div>
+            <div>
+              <div class="skill-group-title">tools</div>
+              <div class="skill-list">
+                <div class="skill-item">git / github</div>
+                <div class="skill-item">vs code</div>
+                <div class="skill-item">figma</div>
+                <div class="skill-item">postman</div>
+                <div class="skill-item">ai tools</div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="tpl-right">
-          <span class="tpl-badge wip">wip</span>
-          <span class="tpl-arrow">↗</span>
-        </div>
-      </a>
+      </div>
+    </section>
 
-      <!-- template 03 -->
-      <a href="/templates/template3.html" target="_blank" class="tpl-row" style="--i:2">
-        <div class="tpl-num">03</div>
-        <div class="tpl-body">
-          <div class="tpl-name">Funky <em>— light, cute</em></div>
-          <div class="tpl-tags">
-            <span class="tpl-tag">html</span>
-            <span class="tpl-tag">css</span>
-            <span class="tpl-tag">js</span>
-            <span class="tpl-tag">gsap</span>
-            <span class="tpl-tag">Geist+Mono</span>
-            <span class="tpl-tag">light</span>
+    <!-- ── ABOUT ──────────────────────────────────────────────── -->
+    <section id="about">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">about</h2>
+        </div>
+        <div class="about-body">
+          <div class="about-text">
+            <p class="about-p">
+              [Write something genuine here. Avoid clichés. Share your journey —
+              what got you into development, what keeps you going, what kind of
+              problems excite you.]
+            </p>
+            <p class="about-p">
+              [Your approach to building things. Philosophy, habits, how you
+              think about quality and craft. Make it <em>yours</em>.]
+            </p>
+            <p class="about-p">
+              [A closing thought — an invitation to connect, what kinds of work
+              you're interested in, or just something personal.]
+            </p>
+          </div>
+          <div class="about-aside">
+            <div class="aside-block">
+              <div class="aside-title">outside the editor</div>
+              <div class="aside-items">
+                <div class="aside-item">[hobby or interest]</div>
+                <div class="aside-item">[another activity]</div>
+                <div class="aside-item">[something personal]</div>
+                <div class="aside-item">[one more thing]</div>
+              </div>
+            </div>
+            <div class="aside-block">
+              <div class="aside-title">currently exploring</div>
+              <div class="aside-items">
+                <div class="aside-item">[tech or topic]</div>
+                <div class="aside-item">[something you're learning]</div>
+              </div>
+            </div>
+            <div class="aside-block">
+              <div class="aside-title">reading</div>
+              <div class="aside-items">
+                <div class="aside-item">[book or resource]</div>
+                <div class="aside-item">[another one]</div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="tpl-right">
-          <span class="tpl-badge archive">archived</span>
-          <span class="tpl-arrow">↗</span>
-        </div>
-      </a>
+      </div>
+    </section>
 
-      <!-- placeholder 04 — coming soon -->
-      <div class="tpl-row" style="--i:3; opacity:.4; pointer-events:none; cursor:default;">
-        <div class="tpl-num">04</div>
-        <div class="tpl-body">
-          <div class="tpl-name">... coming soon<em></em></div>
-          <div class="tpl-tags">
-            <span class="tpl-tag">tbd</span>
+    <!-- ── CONTACT ────────────────────────────────────────────── -->
+    <section id="contact">
+      <div class="container">
+        <div class="contact-body">
+          <h2 class="contact-big">got something<br /><em>in mind?</em></h2>
+          <div class="contact-row">
+            <div class="contact-email-wrap">
+              <div class="contact-label">drop a line</div>
+              <a href="mailto:[your.email@domain.com]" class="contact-email"
+                >[your.email@domain.com]</a
+              >
+            </div>
+            <div class="social-stack">
+              <a href="#" class="social-link">github</a>
+              <a href="#" class="social-link">linkedin</a>
+              <a href="#" class="social-link">twitter</a>
+              <a href="#" class="social-link">resume</a>
+            </div>
           </div>
         </div>
-        <div class="tpl-right">
-          <span class="tpl-badge soon">soon</span>
-        </div>
       </div>
+    </section>
 
-    </div>
-  </div>
-</section>
-
-<!-- how to use -->
-<section id="how-to-use" class="howto">
-  <div class="wrap">
-    <div class="howto-head">how to use</div>
-    <div class="steps">
-      <div class="step">
-        <div class="step-n">01</div>
-        <div class="step-title">Fork or clone</div>
-        <div class="step-text">
-          Head to the repo and fork it to your GitHub account, or clone it directly.
-          <br><span class="step-code">git clone git@github.com:kayspace/portfolio-template.git</span>
+    <!-- ── FOOTER ─────────────────────────────────────────────── -->
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-l">
+          © 2026 [your_name] — template by
+          <a href="https://kayspace.vercel.app" target="_blank">kayspace</a>
         </div>
+        <div class="footer-r"
+            ><a
+            class="footer-r"
+              href="https://github.com/kayspace/portfolio-template/blob/master/templates/template2.html"
+              target="_blank"
+              >fork/source code ✪</a
+            ></div>
       </div>
-      <div class="step">
-        <div class="step-n">02</div>
-        <div class="step-title">Pick a template</div>
-        <div class="step-text">
-          Each template lives in templates folder. Open the one you want and edit <span class="step-code">template{number}.html</span> — all placeholders are clearly marked.
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-n">03</div>
-        <div class="step-title">Ship it</div>
-        <div class="step-text">
-          Deploy to Vercel, Netlify, or GitHub Pages in one step. No build process, no config files, just drop the folder.
-        </div>
-      </div>
-    </div>
+    </footer>
 
-    <!-- licence -->
-    <div class="licence-block">
-      <div class="licence-icon">§</div>
-      <div class="licence-body">
-        <div class="licence-title">MIT Licence — use it however you want.</div>
-        <div class="licence-text">
-          Free to use, modify, and distribute — for personal and commercial projects. You do not need to credit me, but a star on
-          <a href="https://github.com/kayspace/portfolio-template" target="_blank">GitHub</a>
-          or a small note in your footer is always appreciated.
-          Read the full <a href="https://github.com/kayspace/portfolio-template/blob/master/LICENSE" target="_blank">licence here</a>.
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-</main>
+    <!-- ── GSAP ───────────────────────────────────────────────── -->
+    <script>
+      gsap.registerPlugin(ScrollTrigger);
 
-<!-- footer -->
-<footer class="footer">
-  <div class="footer-wrap">
-    <div class="footer-left">
-      <div class="footer-made">
-        - by <a href="https://kayspace.vercel.app" target="_blank">kayspace</a> <span class="footer-oss">- thank u for using ◕‿◕</span>
-      </div>
-      
-    </div>
-    <div class="footer-right">
-      <a href="https://github.com/kayspace/portfolio-template" target="_blank" class="footer-link">github</a>
-      <a href="https://github.com/kayspace/portfolio-template/blob/master/LICENSE" target="_blank" class="footer-link">licence</a>
-      <a href="https://github.com/kayspace/portfolio-template/issues" target="_blank" class="footer-link">issues</a>
-    </div>
-  </div>
-</footer>
+      /* hero */
+      gsap.set(
+        [
+          ".home-eyebrow",
+          ".hero-title",
+          ".hero-desc",
+          ".hero-actions",
+          ".home-right",
+        ],
+        { y: 24 },
+      );
 
-</body>
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+      tl.to(".home-eyebrow", { opacity: 1, y: 0, duration: 0.7 }, 0.25)
+        .to(".hero-title", { opacity: 1, y: 0, duration: 0.9 }, 0.4)
+        .to(".hero-desc", { opacity: 1, y: 0, duration: 0.7 }, 0.65)
+        .to(".hero-actions", { opacity: 1, y: 0, duration: 0.6 }, 0.8)
+        .to(".home-right", { opacity: 1, y: 0, duration: 0.8 }, 0.55);
+
+      /* work cards staggered */
+      gsap.utils.toArray(".work-card").forEach((el, i) => {
+        gsap.to(el, {
+          opacity: 1,
+          y: 0,
+          duration: 0.55,
+          ease: "power2.out",
+          delay: i * 0.08,
+          scrollTrigger: { trigger: el, start: "top 88%" },
+        });
+      });
+
+      /* sections */
+      [".skills-two-col", ".about-body", ".contact-body"].forEach((sel) => {
+        const el = document.querySelector(sel);
+        if (!el) return;
+        gsap.to(el, {
+          opacity: 1,
+          y: 0,
+          duration: 0.65,
+          ease: "power2.out",
+          scrollTrigger: { trigger: el, start: "top 86%" },
+        });
+      });
+
+      /* active nav */
+      const sections = document.querySelectorAll("section[id]");
+      const links = document.querySelectorAll(".nav-links a");
+      new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (!e.isIntersecting) return;
+            links.forEach((a) => {
+              const active = a.getAttribute("href") === "#" + e.target.id;
+              a.style.color = active ? "var(--ink)" : "";
+            });
+          });
+        },
+        { threshold: 0.4 },
+      ).observe;
+      sections.forEach((s) =>
+        new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (!e.isIntersecting) return;
+              links.forEach((a) => {
+                a.style.color =
+                  a.getAttribute("href") === "#" + e.target.id
+                    ? "var(--ink)"
+                    : "";
+              });
+            });
+          },
+          { threshold: 0.35 },
+        ).observe(s),
+      );
+    </script>
+  </body>
 </html>
